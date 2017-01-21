@@ -1,24 +1,11 @@
 #include <map>
-#include <set>
 #include <list>
-#include <cmath>
-#include <ctime>
-#include <deque>
-#include <queue>
-#include <stack>
 #include <string>
-#include <bitset>
-#include <cstdio>
-#include <limits>
 #include <vector>
-#include <climits>
-#include <cstring>
-#include <cstdlib>
 #include <fstream>
 #include <numeric>
 #include <sstream>
 #include <iostream>
-#include <algorithm>
 #include <unordered_map>
 
 using namespace std;
@@ -31,7 +18,7 @@ enum ORDER_TYPE
 	ORDER_TYPE_IOC
 };
 
-
+// order type parser..
 ORDER_TYPE OrderTypeParser(const string& orderType)
 {
 	if ("GFD" == orderType) 
@@ -44,6 +31,7 @@ ORDER_TYPE OrderTypeParser(const string& orderType)
 	}
 	return ORDER_TYPE_NONE;
 }
+
 
 // operation types.. 
 enum ORDER_OPERATION 
@@ -58,6 +46,7 @@ enum ORDER_OPERATION
 	ORDER_OPERATION_PRINT
 };
 
+// operation type parser..
 ORDER_OPERATION OrderOperationParser(const string& orderType)
 {
 	if ("BUY" == orderType) 
@@ -96,6 +85,7 @@ public:
 	 m_id(id)
 	{}
 
+	// constructor for none order..
 	COrder(ORDER_OPERATION operationType) :
 		m_operationType(operationType),
 		m_orderType(ORDER_TYPE_NONE),
@@ -105,14 +95,22 @@ public:
 	{}
 
 	ORDER_OPERATION GetOperationType() { return m_operationType; }
+
 	ORDER_TYPE GetOrderType() { return m_orderType; }
+
 	uint64_t GetPrice() { return m_price; }
+
 	uint64_t GetQuant() { return m_quant; }
+
 	string GetID() { return m_id; }
+
 	void UpdateQuant(uint64_t newquant) { m_quant = newquant; }
+
+	void UpdateOperationType(ORDER_OPERATION newtype) { m_operationType = newtype; }
 
 private:
 	COrder() {};
+
 private:
 	ORDER_OPERATION m_operationType;
 	ORDER_TYPE m_orderType;
@@ -124,8 +122,11 @@ private:
 class CMatchEngine
 {
 public:
+	// match a new order in buybook or sellbook, most important function..
 	void Match(COrder& order)
 	{
+		if ( order.GetPrice() == 0 || order.GetQuant() == 0 || order.GetID().empty() )	return;
+
 		if( order.GetOperationType() == ORDER_OPERATION_SELL )
 		{ 
 			// search buy book..
@@ -138,16 +139,19 @@ public:
 				{
 					auto orderQty = order.GetQuant();
 					auto buyOrderQty = it->GetQuant();
-					if (orderQty == buyOrderQty)
+					if (orderQty == buyOrderQty) 
 					{
+						// delete both
 						TradePrint(*it, order, orderQty);
 						m_hashbuy.erase(it->GetID());
+						ittmp = it;
 						it++;
 						m_buybook.erase(ittmp);
 						return;
 					}
 					else if(orderQty < buyOrderQty)
 					{
+						// update book, delete new order
 						TradePrint(*it, order, orderQty);
 						auto newquant = buyOrderQty - orderQty;
 						it->UpdateQuant(newquant);
@@ -155,18 +159,23 @@ public:
 					}
 					else 
 					{
+						// update new order.. delete book..
 						TradePrint(*it, order, buyOrderQty);
 						auto newquant = orderQty - buyOrderQty;
 						order.UpdateQuant(newquant);
 						
 						m_hashbuy.erase(it->GetID());
+						ittmp = it;
 						it++;
 						m_buybook.erase(ittmp);						
+						continue;
 					}
 				}
+				it++;
 			}
 
-			if(order.GetOrderType() == ORDER_TYPE_GFD)
+			// insert GFD order into sellbook and hashsell..
+			if (order.GetOrderType() == ORDER_TYPE_GFD ) 
 			{
 				auto tmpitr = m_sellbook.insert(m_sellbook.end(), order);
 				m_hashsell[order.GetID()] = tmpitr;
@@ -187,15 +196,18 @@ public:
 					auto sellOrderQty = it->GetQuant();
 					if (orderQty == sellOrderQty)
 					{
+						// delete both
 						TradePrint(*it, order, orderQty);
 
 						m_hashsell.erase(it->GetID());
+						ittmp = it;
 						it++;
 						m_sellbook.erase(ittmp);
 						return;
 					}
 					else if (orderQty < sellOrderQty)
 					{
+						// delete new order.. update book..
 						TradePrint(*it, order, orderQty);
 						auto newquant = sellOrderQty - orderQty;
 						it->UpdateQuant(newquant);
@@ -203,17 +215,23 @@ public:
 					}
 					else
 					{
+						// delete book.. update new order..
 						TradePrint(*it, order, sellOrderQty);
 						auto newquant = orderQty - sellOrderQty;
 						order.UpdateQuant(newquant);
 
 						m_hashsell.erase(it->GetID());
+						ittmp = it;
 						it++;
 						m_sellbook.erase(ittmp);
+						continue;
 					}
 				}
+				it++;
 			}
-			if (order.GetOrderType() == ORDER_TYPE_GFD)
+			
+			// insert GFD order into buybook and hashbuy..
+			if (order.GetOrderType() == ORDER_TYPE_GFD )
 			{
 				auto tmpitr = m_buybook.insert(m_buybook.end(), order);
 				m_hashbuy[order.GetID()] = tmpitr;
@@ -223,10 +241,25 @@ public:
 
 	void Modify(COrder& order)
 	{
+		// firstly try to cancel this order, if cannot be cancelled, means this order do not exist..
+		if( Cancel( order ) ) // this order could be cancelled..
+		{
+			auto operationType =  ORDER_OPERATION_BUY; 
+			if( order.GetOperationType() == ORDER_OPERATION_MODIFY_SELL )
+			{
+				operationType =  ORDER_OPERATION_SELL; 
+			}
+			
+			order.UpdateOperationType( operationType );
+			Match( order );
+		}
 		
+		return;
 	}
 
-	void Cancel(COrder& order)
+	// return true if a order was cancelled, return false if no order cancelled..
+	// triggered by Modify()..
+	bool Cancel(COrder& order)
 	{
 		auto id = order.GetID();
 		
@@ -235,7 +268,7 @@ public:
 		{
 			m_sellbook.erase( m_hashsell[ id ] );
 			m_hashsell.erase( id );
-			return; // if id could be found in sell book, then wont be found in buy book..
+			return true; // if id could be found in sell book, then wont be found in buy book..
 		}
 		
 		// id could be found in buybook..
@@ -243,8 +276,10 @@ public:
 		{
 			m_buybook.erase( m_hashbuy[ id ] );
 			m_hashbuy.erase( id );
-			return;
+			return true;
 		}
+
+		return false;
 	}
     
 	void Print()
@@ -264,11 +299,9 @@ public:
 		{
 			cout << rit->first << " " << rit->second << endl;
 		}
-
-        cout<<endl;
 	}
 	
-    // only used in print..
+    // sort sellbook and buybook for PRINT operation..
     void SortBook(map<uint64_t, uint64_t>& sortedBook, list<COrder> orderList)
 	{
 		sortedBook.clear();
@@ -307,65 +340,83 @@ private:
 	list<COrder>   m_buybook;
 };
 
-// used in parser..
-void SplitString(const string& s, const string& delim, vector< string >& ret)
+// used in parser, split a cmd line separated by ' ' into a vector of string..
+void SplitString(const string& s, const string& delim, vector<string>& ret)
 {
 	size_t last = 0;
 	size_t index = s.find_first_of(delim, last);
 	while (index != string::npos)
 	{
-		ret.push_back(s.substr(last, index - last));
+		string newitem = s.substr(last, index - last);
+		if (newitem.length() > 0)
+		{
+			ret.push_back(s.substr(last, index - last));
+		}
 		last = index + 1;
 		index = s.find_first_of(delim, last);
 	}
-	if (index - last>0)
+	if ( index - last > 0 )
 	{
-		ret.push_back(s.substr(last, index - last));
+		string newitem = s.substr(last, index - last);
+		if (newitem.length() > 0)
+		{
+			ret.push_back(newitem);
+		}
 	}
 }
 
-uint64_t String2Uint64(const string& s)
+inline uint64_t String2Uint64(const string& s)
 {
 	stringstream a;
 	a << s;
 	uint64_t ret = 0;
-	a >> ret;
-	return ret;
+	a >> ret; return ret;
 }
 
+inline bool IsInteger(const string & s)
+{
+   if(s.empty() || ((!isdigit(s[0])) && (s[0] != '-') && (s[0] != '+'))) return false ;
+
+   char * p ;
+   strtol(s.c_str(), &p, 10) ;
+
+   return (*p == 0) ;
+}
+
+// parse a cmd line in to a vector of different fields, and return a order object for engine..
+// another very important function
 COrder ParserCommand(string cmd)
 {
+	
 	vector<string> items;
 	SplitString(cmd, " ", items);
-	if (items.size() == 0)
-	{
-		COrder newOrder(ORDER_OPERATION_NONE);
-		return newOrder;
-	}
+
+	COrder noneOrder(ORDER_OPERATION_NONE);
+
+	if ( items.size() == 0 || items.size() > 5 )	return noneOrder;
     
 	ORDER_OPERATION oper = OrderOperationParser(items[0]);
 	
     if (oper == ORDER_OPERATION_BUY || oper == ORDER_OPERATION_SELL)
 	{
-		if (items.size() < 5)
-		{
-			COrder newOrder(ORDER_OPERATION_NONE);
-			return newOrder;
-		}
+		// check line size, if price and quantity are integer..
+		if ( items.size() < 5 || !IsInteger(items[2]) || !IsInteger(items[3]) )	
+			return noneOrder;
+
 		COrder newOrder(oper
 			, OrderTypeParser(items[1])
 			, String2Uint64(items[2])
 			, String2Uint64(items[3])
 			, items[4]);
+
 		return newOrder;
 	}
 	else if (oper == ORDER_OPERATION_MODIFY)
 	{
-		if (items.size() < 5)
-		{
-			COrder newOrder(ORDER_OPERATION_NONE);
-			return newOrder;
-		}
+		// check line size, if price and quantity are integer..
+		if ( items.size() < 5 || !IsInteger(items[4]) || !IsInteger(items[3]) )	
+			return noneOrder;
+		
 		ORDER_OPERATION oper2 = OrderOperationParser(items[2]);
 		
         if (oper2 == ORDER_OPERATION_BUY) 
@@ -378,36 +429,35 @@ COrder ParserCommand(string cmd)
 		}
 		else 
         {
-			oper2 = ORDER_OPERATION_NONE;
+			return noneOrder;
+			//oper2 = ORDER_OPERATION_NONE;
 		}
 
 		COrder newOrder(oper2
-			, ORDER_TYPE_NONE
+			, ORDER_TYPE_GFD
 			, String2Uint64(items[3])
 			, String2Uint64(items[4])
 			, items[1]);
+
 		return newOrder;
 	}
 	else if (oper == ORDER_OPERATION_CANCEL)
 	{
-		if (items.size() < 2)
-		{
-			COrder newOrder(ORDER_OPERATION_NONE);
-			return newOrder;
-		}
+		if ( items.size() != 2 )	return noneOrder;
+
 		COrder newOrder(ORDER_OPERATION_CANCEL, ORDER_TYPE_NONE, 0, 0, items[1]);
 		return newOrder;
 	}
 	else if (oper == ORDER_OPERATION_PRINT)
 	{
+		if ( items.size() != 1 )	return noneOrder;
+
 		COrder newOrder(ORDER_OPERATION_PRINT);
 		return newOrder;
 	}
-	//none
-	else
+	else // ORDER_OPERATION_PRINT..
 	{
-		COrder newOrder(ORDER_OPERATION_NONE);
-		return newOrder;
+		return noneOrder;
 	}
 }
 
@@ -423,29 +473,57 @@ void Test01()
 	engine.Match(o3);
 }
 
+/* test case 2
+BUY GFD 1000 10 order1
+BUY GFD 1000 10 order2
+SELL IOC 900 2 order4
+SELL GFD 1200 2 order5
+PRINT
+MODIFY order1 BUY 1300 20
+SELL GFD 900 20 order3
+CANCEL order1
+PRINT
+SELL GFD 2122 20 order6
+SELL ioc 213213 20 order7
+SELL GFD 12 20 order8
+sdfa 215 5212 sdf 5432
+SELL IOC 90 20 order9
+SELL GFD 00 20 order11
+SELL GFD 900 20 order12
+BUY IOC 122 FS order13
+SELL GFD 900 20 order14
+PRINT
+*/ 
+
 int main()
 {
 	string cmdLine;
 	CMatchEngine engine;
-	while (getline(cin,cmdLine))
-	{	
+	while ( getline( cin , cmdLine ) )
+	{
 		COrder newOrder = ParserCommand(cmdLine);
+
 		switch (newOrder.GetOperationType())
 		{
 			case ORDER_OPERATION_BUY:
 			case ORDER_OPERATION_SELL:
 				{
+					if( newOrder.GetOrderType() == ORDER_TYPE_NONE )
+						break;
+
 					engine.Match(newOrder);
 				}
 				break;
-			case ORDER_OPERATION_MODIFY:
+			//case ORDER_OPERATION_MODIFY:
+			case ORDER_OPERATION_MODIFY_BUY:
+			case ORDER_OPERATION_MODIFY_SELL:
 				{
 					engine.Modify(newOrder);
 				}
 				break;
 			case ORDER_OPERATION_CANCEL:
 				{
-					engine.Cancel(newOrder);
+					auto ret = engine.Cancel(newOrder);
 				}
 				break;
 			case ORDER_OPERATION_PRINT:
@@ -453,8 +531,7 @@ int main()
 					engine.Print();
 				}
 				break;
-			default:
-				// do nothing
+			default: // ORDER_OPERATION_NONE
 				break;
 		}
 	}
