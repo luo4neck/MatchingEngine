@@ -1,15 +1,8 @@
-#include <map>
-#include <list>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <numeric>
-#include <sstream>
-#include <iostream>
-#include <unordered_map>
-#include "common.hpp"
+#include "common.h"
 //#include "engine.hpp"
 
+#ifndef ORDER
+#define ORDER
 using namespace std;
 
 class COrder
@@ -57,3 +50,5 @@ private:
 	uint64_t m_quant;
 	string m_id;
 };
+
+#endif
