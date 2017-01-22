@@ -14,22 +14,18 @@
 
 using namespace std;
 
-//class CMatchEngine
-//{
-//public:
-	// match a new order in buybook or sellbook, most important function..
 void CMatchEngine::Match(COrder& order)
 {
 	if ( order.GetPrice() == 0 || order.GetQuant() == 0 || order.GetID().empty() )	return;
 
 	if( order.GetOperationType() == ORDER_OPERATION_SELL )
 	{ 
-			// search buy book..
+		// search buy book..
 		list<COrder>::iterator it = m_buybook.begin();
 		list<COrder>::iterator ittmp = m_buybook.begin();
 		for (; it != m_buybook.end();)
 		{
-				// sell could happen..
+			// sell could happen..
 			if (order.GetPrice() <= it->GetPrice() )
 			{
 				auto orderQty = order.GetQuant();
@@ -54,7 +50,7 @@ void CMatchEngine::Match(COrder& order)
 				}
 				else 
 				{
-						// update new order.. delete book..
+					// update new order.. delete book..
 					TradePrint(*it, order, buyOrderQty);
 					auto newquant = orderQty - buyOrderQty;
 					order.UpdateQuant(newquant);
@@ -227,13 +223,11 @@ void CMatchEngine::TradePrint(COrder& o1, COrder& o2, uint64_t qty)
 	cout << " " << qty;
 	cout << endl;
 }
-// end of class engine..
-
 
 
 // parse a cmd line in to a vector of different fields, and return a order object for engine..
 // another very important function
-COrder ParserCommand(string cmd)
+COrder CMatchEngine::ParserCommand(string cmd)
 {
 	
 	vector<string> items;
