@@ -1,11 +1,19 @@
-all: engine.cpp
-	clang++-3.5 engine.cpp -Wall -O2 -o engine -std=c++11
+cc=clang++-3.5
+exe=main
+obj=main.o engine.o common.o
+flag=-Wall -std=c++11
 
-1:
-	clang++-3.5 main.cpp order.h engine.cpp common.cpp -std=c++11
+$(exe):$(obj)
+	$(cc) -o $(exe) $(obj) $(flag)
 
-test: engine
-	./engine
+main.o:main.cpp
+	$(cc) -c main.cpp $(flag)
+
+engine.o:engine.cpp
+	$(cc) -c engine.cpp $(flag)
+
+common.o:common.cpp
+	$(cc) -c common.cpp $(flag)
 
 clean:
-	rm *.gch *.o
+	rm *.o main

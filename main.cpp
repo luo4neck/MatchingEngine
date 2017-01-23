@@ -13,6 +13,11 @@
 #include "engine.h"
 #include "order.h"
 
+#ifndef MAIN
+#define MAIN
+
+using namespace std;
+
 int main()
 {
 	string cmdLine;
@@ -56,3 +61,5 @@ int main()
 
 	return 0;
 }
+
+#endif

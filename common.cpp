@@ -1,23 +1,24 @@
-/*
-#include <map>
-#include <list>
-#include <string>
+//#include <map>
+//#include <list>
+//#include <string>
 #include <vector>
 #include <fstream>
-#include <numeric>
+//#include <numeric>
 #include <sstream>
-#include <iostream>
-#include <unordered_map>
-*/
+//#include <iostream>
+//#include <unordered_map>
 
 //#include "order.hpp"
 
 #include "common.h"
 
-using namespace std;
+//#ifndef COMMON
+//#define COMMON
 
-// order types..
+//using namespace std;
+
 /*
+// order types..
 enum ORDER_TYPE 
 {
 	ORDER_TYPE_NONE,
@@ -25,6 +26,7 @@ enum ORDER_TYPE
 	ORDER_TYPE_IOC
 };
 */
+
 // order type parser..
 ORDER_TYPE OrderTypeParser(const string& orderType)
 {
@@ -40,8 +42,8 @@ ORDER_TYPE OrderTypeParser(const string& orderType)
 }
 
 
-// operation types.. 
 /*
+// operation types.. 
 enum ORDER_OPERATION 
 {
 	ORDER_OPERATION_NONE,
@@ -54,6 +56,7 @@ enum ORDER_OPERATION
 	ORDER_OPERATION_PRINT
 };
 */
+
 // operation type parser..
 ORDER_OPERATION OrderOperationParser(const string& orderType)
 {
@@ -80,9 +83,9 @@ ORDER_OPERATION OrderOperationParser(const string& orderType)
 	return ORDER_OPERATION_NONE;
 }
 
-
+/*
 // used in parser, split a cmd line separated by ' ' into a vector of string..
-void SplitString(const string& s, const string& delim, vector<string>& ret)
+inline void SplitString(const string& s, const string& delim, vector<string>& ret)
 {
 	size_t last = 0;
 	size_t index = s.find_first_of(delim, last);
@@ -123,3 +126,6 @@ inline bool IsInteger(const string & s)
 
    return (*p == 0) ;
 }
+
+*/
+//#endif
