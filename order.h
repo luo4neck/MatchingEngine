@@ -1,7 +1,8 @@
 #include "common.h"
 
-#ifndef ORDER
-#define ORDER
+#ifndef ORDER_H
+#define ORDER_H
+
 using namespace std;
 
 class COrder

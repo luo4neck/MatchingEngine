@@ -1,19 +1,8 @@
-//#include <map>
-//#include <list>
-#include <string>
 #include <vector>
-#include <fstream>
-//#include <numeric>
 #include <sstream>
-//#include <iostream>
-//#include <unordered_map>
 
-//#include "order.hpp"
-
-//#include "common.h"
-
-#ifndef COMMON
-#define COMMON
+#ifndef COMMON_H
+#define COMMON_H
 
 using namespace std;
 
@@ -27,21 +16,6 @@ enum ORDER_TYPE
 
 // order type parser..
 ORDER_TYPE OrderTypeParser(const string& orderType);
-/*
-ORDER_TYPE OrderTypeParser(const string& orderType)
-{
-	if ("GFD" == orderType) 
-    {
-		return ORDER_TYPE_GFD;
-	}
-	if ("IOC" == orderType) 
-    {
-		return ORDER_TYPE_IOC;
-	}
-	return ORDER_TYPE_NONE;
-}
-*/
-
 
 // operation types.. 
 enum ORDER_OPERATION 
@@ -58,32 +32,6 @@ enum ORDER_OPERATION
 
 // operation type parser..
 ORDER_OPERATION OrderOperationParser(const string& orderType);
-/*
-ORDER_OPERATION OrderOperationParser(const string& orderType)
-{
-	if ("BUY" == orderType) 
-    {
-		return ORDER_OPERATION_BUY;
-	}
-	if ("SELL" == orderType) 
-    {
-		return ORDER_OPERATION_SELL;
-	}
-	if ("MODIFY" == orderType) 
-    {
-		return ORDER_OPERATION_MODIFY;
-	}
-	if ("CANCEL" == orderType) 
-    {
-		return ORDER_OPERATION_CANCEL;
-	}
-	if ("PRINT" == orderType) 
-    {
-		return ORDER_OPERATION_PRINT;
-	}
-	return ORDER_OPERATION_NONE;
-}
-*/
 
 // used in parser, split a cmd line separated by ' ' into a vector of string..
 inline void SplitString(const string& s, const string& delim, vector<string>& ret)

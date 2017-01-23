@@ -1,20 +1,9 @@
-//#include <map>
-//#include <list>
-#include <string>
-/*
-#include <vector>
-#include <fstream>
-#include <numeric>
-#include <sstream>
-#include <iostream>
-#include <unordered_map>
-*/
 #include "common.h"
 #include "engine.h"
 #include "order.h"
 
-#ifndef MAIN
-#define MAIN
+#ifndef MAIN_C
+#define MAIN_C
 
 using namespace std;
 

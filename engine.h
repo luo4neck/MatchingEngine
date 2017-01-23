@@ -1,17 +1,12 @@
 #include <map>
 #include <list>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <numeric>
-#include <sstream>
 #include <iostream>
 #include <unordered_map>
 #include "common.h"
 #include "order.h"
 
-#ifndef ENGINE
-#define ENGINE
+#ifndef ENGINE_H
+#define ENGINE_H
 
 using namespace std;
 
@@ -32,6 +27,8 @@ public:
     // sort sellbook and buybook for PRINT operation..
     void SortBook(map<uint64_t, uint64_t>& sortedBook, list<COrder> orderList);
 	
+	// parse a cmd line in to a vector of different fields, and return a order object for engine..
+	// another very important function
 	static COrder ParserCommand(string cmd);
 
 private:
@@ -44,9 +41,5 @@ private:
 	void TradePrint(COrder& o1, COrder& o2, uint64_t qty);
 
 };
-// end of class engine..
-
-// parse a cmd line in to a vector of different fields, and return a order object for engine..
-// another very important function
 
 #endif
