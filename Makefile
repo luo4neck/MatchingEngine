@@ -1,7 +1,7 @@
 cc=clang++-3.5
 exe=main
 obj=main.o engine.o common.o
-flag=-Wall -std=c++11
+flag=-Wall -std=c++11 -O2
 
 $(exe):$(obj)
 	$(cc) -o $(exe) $(obj) $(flag)
