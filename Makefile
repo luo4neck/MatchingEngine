@@ -9,10 +9,10 @@ $(exe):$(obj)
 main.o:main.cpp
 	$(cc) -c main.cpp $(flag)
 
-engine.o:engine.cpp
+engine.o:engine.cpp engine.h
 	$(cc) -c engine.cpp $(flag)
 
-common.o:common.cpp
+common.o:common.cpp common.h
 	$(cc) -c common.cpp $(flag)
 
 clean:
