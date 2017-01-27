@@ -1,19 +1,31 @@
-cc=clang++-3.5
-exe=main
-obj=main.o engine.o common.o
-flag=-Wall -std=c++11 -O2
+CC		=clang++-3.5
+EXE		=main
+OBJ		=main.o engine.o common.o
+FLAG	=-Wall -std=c++11 -O2
+BUILDDIR=build
+SRCDIR	=source
 
-$(exe):$(obj)
-	$(cc) -o $(exe) $(obj) $(flag)
+$(EXE):$(OBJ)
+	$(CC) -o $(EXE) $(OBJ) $(FLAG)
+	@echo 
+	@echo "All .o and executable file generated.." 
+	@echo 
+	mkdir $(BUILDDIR)
+	mv ./$(OBJ) ./$(BUILDDIR)
+	mv ./$(EXE) ./$(BUILDDIR)
+	@echo
+	@echo "Moved to directory /build for running and testing.."
 
-main.o:main.cpp
-	$(cc) -c main.cpp $(flag)
+main.o:$(SRCDIR)/main.cpp
+	$(CC) -c $(SRCDIR)/main.cpp $(FLAG)
 
-engine.o:engine.cpp engine.h
-	$(cc) -c engine.cpp $(flag)
+engine.o:$(SRCDIR)/engine.cpp $(SRCDIR)/engine.h 
+	$(CC) -c $(SRCDIR)/engine.cpp $(FLAG)
 
-common.o:common.cpp common.h
-	$(cc) -c common.cpp $(flag)
+common.o:$(SRCDIR)/common.cpp $(SRCDIR)/common.h
+	$(CC) -c $(SRCDIR)/common.cpp $(FLAG)
 
+
+.PHONY:clean
 clean:
-	rm *.o main
+	rm -rf ./$(BUILDDIR)
