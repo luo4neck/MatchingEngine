@@ -6,18 +6,15 @@ BUILDDIR=build
 SRCDIR	=source
 TESTDIR	=test
 
-$(EXE):$(BUILDDIR) $(OBJ)
+$(BUILDDIR)/$(EXE):$(OBJ)
 	$(CC) -o $(EXE) $(OBJ) $(FLAG)
-	@echo 
 	@echo "All .o and executable file generated.." 
 	@echo 
-	mv ./$(OBJ) ./$(BUILDDIR)
-	mv ./$(EXE) ./$(BUILDDIR)
-	@echo
+	-mkdir $(BUILDDIR)
+	mv $(OBJ) $(EXE) $(BUILDDIR)
 	@echo "Moved to directory /build for running and testing.."
+	@echo 
 
-$(BUILDDIR):$(OBJ) 
-	mkdir $(BUILDDIR)
 
 main.o:$(SRCDIR)/main.cpp
 	$(CC) -c $(SRCDIR)/main.cpp $(FLAG)
@@ -28,11 +25,15 @@ engine.o:$(SRCDIR)/engine.cpp $(SRCDIR)/engine.h
 common.o:$(SRCDIR)/common.cpp $(SRCDIR)/common.h
 	$(CC) -c $(SRCDIR)/common.cpp $(FLAG)
 
-#test1:$(BUILDDIR)/$(EXE) $(TESTDIR)/test1.dat
+
 test1:$(BUILDDIR)/$(EXE) $(TESTDIR)/test1.dat
-	./$(BUILDDIR)/$(EXE) < $(TESTDIR)/test1.dat
+	$(BUILDDIR)/$(EXE) < $(TESTDIR)/test1.dat
 
 
 .PHONY:clean
 clean:
-	rm -rf ./$(BUILDDIR)
+	# below line make use of '-mv' to clean the folder in case compilation 
+	# was not successfully done..
+	-mv $(OBJ) $(EXE) $(BUILDDIR)
+	rm -rf $(BUILDDIR)
+	ls
