@@ -6,7 +6,7 @@ BUILDDIR=build
 SRCDIR	=source
 TESTDIR	=test
 
-$(EXE):$(BUILDDIR)
+$(EXE):$(BUILDDIR) $(OBJ)
 	$(CC) -o $(EXE) $(OBJ) $(FLAG)
 	@echo 
 	@echo "All .o and executable file generated.." 
@@ -28,7 +28,8 @@ engine.o:$(SRCDIR)/engine.cpp $(SRCDIR)/engine.h
 common.o:$(SRCDIR)/common.cpp $(SRCDIR)/common.h
 	$(CC) -c $(SRCDIR)/common.cpp $(FLAG)
 
-test:$(BUILDDIR)/$(EXE)
+#test1:$(BUILDDIR)/$(EXE) $(TESTDIR)/test1.dat
+test1:$(BUILDDIR)/$(EXE) $(TESTDIR)/test1.dat
 	./$(BUILDDIR)/$(EXE) < $(TESTDIR)/test1.dat
 
 
