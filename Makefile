@@ -26,9 +26,21 @@ common.o:$(SRCDIR)/common.cpp $(SRCDIR)/common.h
 	$(CC) -c $(SRCDIR)/common.cpp $(FLAG)
 
 
+#test all:
+#	ls
+
 test1:$(BUILDDIR)/$(EXE) $(TESTDIR)/test1.dat
 	$(BUILDDIR)/$(EXE) < $(TESTDIR)/test1.dat
 
+testcancel:$(BUILDDIR)/$(EXE) $(TESTDIR)/testcancel.dat
+	$(BUILDDIR)/$(EXE) < $(TESTDIR)/testcancel.dat
+	@echo 
+	@echo "file used:" $(TESTDIR) "/testcancel.dat"
+	@echo "expected result: order with price of 1300 disappeared"
+	@echo 
+
+#testprint:
+#testmodify:
 
 .PHONY:clean
 clean:
@@ -36,4 +48,4 @@ clean:
 	# was not successfully done..
 	-mv $(OBJ) $(EXE) $(BUILDDIR)
 	rm -rf $(BUILDDIR)
-	ls
+#	ls
