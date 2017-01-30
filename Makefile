@@ -5,6 +5,8 @@ FLAG	=-Wall -std=c++11 -O2
 BUILDDIR=build
 SRCDIR	=source
 TESTDIR	=test
+TC		=testcancel
+TP		=testprint
 
 $(BUILDDIR)/$(EXE):$(OBJ)
 	$(CC) -o $(EXE) $(OBJ) $(FLAG)
@@ -25,34 +27,34 @@ engine.o:$(SRCDIR)/engine.cpp $(SRCDIR)/engine.h
 common.o:$(SRCDIR)/common.cpp $(SRCDIR)/common.h
 	$(CC) -c $(SRCDIR)/common.cpp $(FLAG)
 
-
-#test all:
-#	ls
-
-test1:$(BUILDDIR)/$(EXE) $(TESTDIR)/test1.dat
-	$(BUILDDIR)/$(EXE) < $(TESTDIR)/test1.dat
-
-testcancel:$(BUILDDIR)/$(EXE) $(TESTDIR)/testcancel.dat
-	$(BUILDDIR)/$(EXE) < $(TESTDIR)/testcancel.dat
-	@echo 
-	@echo "file used:" $(TESTDIR) "/testcancel.dat"
-	@echo "expected result: order with price of 1300 disappeared"
-	@echo 
-
-testprint:$(BUILDDIR)/$(EXE) $(TESTDIR)/testprint.dat
-	$(BUILDDIR)/$(EXE) < $(TESTDIR)/testprint.dat
-	@echo 
-	@echo "file used:" $(TESTDIR) "/testprint.dat"
-	@echo "expected result: SELL order with 2 prices printed, 1500-234, 1400-205"
-	@echo "                 BUY order with 3 prices printed, 1300-100, 1200-610, 1100-410"
-	@echo 
-
-#testmodify:
-
 .PHONY:clean
 clean:
 	# below line make use of '-mv' to clean the folder in case compilation 
 	# was not successfully done..
 	-mv $(OBJ) $(EXE) $(BUILDDIR)
 	rm -rf $(BUILDDIR)
-#	ls
+
+############ above cmds are for building, below cmds are for testing ############
+
+test:$(TC) $(TP)
+
+test1:$(BUILDDIR)/$(EXE) $(TESTDIR)/test1.dat
+	$(BUILDDIR)/$(EXE) < $(TESTDIR)/test1.dat
+
+$(TC):$(BUILDDIR)/$(EXE) $(TESTDIR)/$(TC).dat
+	@echo "Unit testing for functionality of CANCEL:"
+	$(BUILDDIR)/$(EXE) < $(TESTDIR)/$(TC).dat > $(BUILDDIR)/$(TC).tmp
+	diff $(TESTDIR)/$(TC).cor $(BUILDDIR)/$(TC).tmp
+	@echo "expected result: no difference between these 2 compared files" 
+	@echo "file used: $(TESTDIR)/$(TC).dat"
+	@echo 
+
+$(TP):$(BUILDDIR)/$(EXE) $(TESTDIR)/$(TP).dat
+	@echo "Unit testing for functionality of PRINT:"
+	$(BUILDDIR)/$(EXE) < $(TESTDIR)/$(TP).dat > $(BUILDDIR)/$(TP).tmp
+	diff $(TESTDIR)/$(TP).cor $(BUILDDIR)/$(TP).tmp
+	@echo "expected result: no difference between these 2 compared files" 
+	@echo "file used: $(TESTDIR)/$(TP).dat"
+	@echo 
+
+#testmodify:
