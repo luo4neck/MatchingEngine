@@ -39,7 +39,14 @@ testcancel:$(BUILDDIR)/$(EXE) $(TESTDIR)/testcancel.dat
 	@echo "expected result: order with price of 1300 disappeared"
 	@echo 
 
-#testprint:
+testprint:$(BUILDDIR)/$(EXE) $(TESTDIR)/testprint.dat
+	$(BUILDDIR)/$(EXE) < $(TESTDIR)/testprint.dat
+	@echo 
+	@echo "file used:" $(TESTDIR) "/testprint.dat"
+	@echo "expected result: SELL order with 2 prices printed, 1500-234, 1400-205"
+	@echo "                 BUY order with 3 prices printed, 1300-100, 1200-610, 1100-410"
+	@echo 
+
 #testmodify:
 
 .PHONY:clean
