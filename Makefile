@@ -41,20 +41,18 @@ test:$(TC) $(TP)
 test1:$(BUILDDIR)/$(EXE) $(TESTDIR)/test1.dat
 	$(BUILDDIR)/$(EXE) < $(TESTDIR)/test1.dat
 
-$(TC):$(BUILDDIR)/$(EXE) $(TESTDIR)/$(TC).dat
+$(TC):$(BUILDDIR)/$(EXE) $(TESTDIR)/$(TC).dat $(TESTDIR)/$(TC).cor 
 	@echo "Unit testing for functionality of CANCEL:"
 	$(BUILDDIR)/$(EXE) < $(TESTDIR)/$(TC).dat > $(BUILDDIR)/$(TC).tmp
 	diff $(TESTDIR)/$(TC).cor $(BUILDDIR)/$(TC).tmp
 	@echo "expected result: no difference between these 2 compared files" 
-	@echo "file used: $(TESTDIR)/$(TC).dat"
 	@echo 
 
-$(TP):$(BUILDDIR)/$(EXE) $(TESTDIR)/$(TP).dat
+$(TP):$(BUILDDIR)/$(EXE) $(TESTDIR)/$(TP).dat $(TESTDIR)/$(TP).cor 
 	@echo "Unit testing for functionality of PRINT:"
 	$(BUILDDIR)/$(EXE) < $(TESTDIR)/$(TP).dat > $(BUILDDIR)/$(TP).tmp
 	diff $(TESTDIR)/$(TP).cor $(BUILDDIR)/$(TP).tmp
 	@echo "expected result: no difference between these 2 compared files" 
-	@echo "file used: $(TESTDIR)/$(TP).dat"
 	@echo 
 
 #testmodify:
