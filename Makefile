@@ -1,4 +1,5 @@
 CC		=clang++-3.5
+##CC		=g++
 EXE		=main
 OBJ		=main.o engine.o common.o
 FLAG	=-Wall -std=c++11 -O2

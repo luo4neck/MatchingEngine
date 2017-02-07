@@ -1,4 +1,22 @@
+Mini Matching Engine
+
+
+Requirements:
+clang 3.5 / gcc 4.8 or newer
+
+Compiling:
+$ make
+
+All unit tests running:
+$ make test
+
+Unit tests:
+$ make testcancel
+$ make testprint
+
+
 This is a mini trading order matching engine. 
+
 
 Could take 7 kinds of input from stdin:
 
@@ -21,13 +39,6 @@ Matching rule is simple: the ealier sent order will be traded ealier if the pric
 
 
 // sample of input and output..
-
-// build and environment..
-
-// tests..
-There are ## unit tests prepared, 
-
-Input $ make test, all the unit tests will be executed. 
 
 
 // License..
