@@ -1,0 +1,7 @@
+## this unit test file is for functionality of cancal..
+BUY GFD 1200 100 or02
+SELL GFD 1300 100 or03
+SELL GFD 1400 100 or04
+PRINT
+MODIFY or02 BUY 1500 250
+PRINT

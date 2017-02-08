@@ -227,7 +227,7 @@ COrder CMatchEngine::ParserCommand(string cmd)
     
 	ORDER_OPERATION oper = OrderOperationParser(items[0]);
 	
-    if (oper == ORDER_OPERATION_BUY || oper == ORDER_OPERATION_SELL)
+	if (oper == ORDER_OPERATION_BUY || oper == ORDER_OPERATION_SELL)
 	{
 		// check line size, if price and quantity are integer..
 		if ( items.size() < 5 || !IsInteger(items[2]) || !IsInteger(items[3]) )	
@@ -249,8 +249,8 @@ COrder CMatchEngine::ParserCommand(string cmd)
 		
 		ORDER_OPERATION oper2 = OrderOperationParser(items[2]);
 		
-        if (oper2 == ORDER_OPERATION_BUY) 
-        {
+		if (oper2 == ORDER_OPERATION_BUY) 
+		{
 			oper2 = ORDER_OPERATION_MODIFY_BUY;
 		}
 		else if (oper2 == ORDER_OPERATION_SELL)
@@ -258,7 +258,7 @@ COrder CMatchEngine::ParserCommand(string cmd)
 			oper2 = ORDER_OPERATION_MODIFY_SELL;
 		}
 		else 
-        {
+		{
 			return noneOrder;
 			//oper2 = ORDER_OPERATION_NONE;
 		}

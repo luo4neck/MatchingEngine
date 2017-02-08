@@ -8,6 +8,7 @@ SRCDIR	=source
 TESTDIR	=test
 TC		=testcancel
 TP		=testprint
+TM		=testmodify
 
 $(BUILDDIR)/$(EXE):$(OBJ)
 	$(CC) -o $(EXE) $(OBJ) $(FLAG)
@@ -37,11 +38,9 @@ clean:
 
 ############ above cmds are for building, below cmds are for testing ############
 
-test:$(TC) $(TP)
+test:$(TC) $(TP) $(TM)
 
-test1:$(BUILDDIR)/$(EXE) $(TESTDIR)/test1.dat
-	$(BUILDDIR)/$(EXE) < $(TESTDIR)/test1.dat
-
+# test of CANCEL..
 $(TC):$(BUILDDIR)/$(EXE) $(TESTDIR)/$(TC).dat $(TESTDIR)/$(TC).cor 
 	@echo "Unit testing for functionality of CANCEL:"
 	$(BUILDDIR)/$(EXE) < $(TESTDIR)/$(TC).dat > $(BUILDDIR)/$(TC).tmp
@@ -49,6 +48,7 @@ $(TC):$(BUILDDIR)/$(EXE) $(TESTDIR)/$(TC).dat $(TESTDIR)/$(TC).cor
 	@echo "expected result: no difference between these 2 compared files" 
 	@echo 
 
+# test of PRINT..
 $(TP):$(BUILDDIR)/$(EXE) $(TESTDIR)/$(TP).dat $(TESTDIR)/$(TP).cor 
 	@echo "Unit testing for functionality of PRINT:"
 	$(BUILDDIR)/$(EXE) < $(TESTDIR)/$(TP).dat > $(BUILDDIR)/$(TP).tmp
@@ -56,4 +56,9 @@ $(TP):$(BUILDDIR)/$(EXE) $(TESTDIR)/$(TP).dat $(TESTDIR)/$(TP).cor
 	@echo "expected result: no difference between these 2 compared files" 
 	@echo 
 
-#testmodify:
+# test of MODIFY..
+$(TM):$(BUILDDIR)/$(EXE) $(TESTDIR)/$(TM).dat $(TESTDIR)/$(TM).cor 
+	@echo "Unit testing for functionality of MODIFY:"
+	$(BUILDDIR)/$(EXE) < $(TESTDIR)/$(TM).dat > $(BUILDDIR)/$(TM).tmp
+	diff $(TESTDIR)/$(TM).cor $(BUILDDIR)/$(TM).tmp
+	@echo "expected result: no difference between these 2 compared files" 

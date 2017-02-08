@@ -4,15 +4,19 @@ Mini Matching Engine
 Requirements:
 clang 3.5 / gcc 4.8 or newer
 
+
 Compiling:
 $ make
+
 
 All unit tests running:
 $ make test
 
+
 Unit tests:
 $ make testcancel
 $ make testprint
+$ make testmodify
 
 
 This is a mini trading order matching engine. 
