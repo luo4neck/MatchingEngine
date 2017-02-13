@@ -1,26 +1,24 @@
-Mini Matching Engine
+### **Mini Matching Engine**
+This is a mini trading order matching engine. Matching rule is simple: the earlier sent order will be traded earlier if the prices could be matched (buy price not lower than sell price).
 
-
-Requirements:
+#### **Requirements:**
 clang 3.5 / gcc 4.8 or newer
 
-
-Compiling:
+#### **Compiling:**
 $ make
 
-
-All unit tests running:
+#### **All unit tests running:**
 $ make test
 
 
-Unit tests:
+#### **Unit tests:**
 $ make testcancel
+
 $ make testprint
+
 $ make testmodify
 
-
-This is a mini trading order matching engine. 
-
+#### **Supported Commands:**
 
 Could take 7 kinds of input from stdin:
 
@@ -38,14 +36,10 @@ Could take 7 kinds of input from stdin:
 
 7, PRINT. 
 
+#### Sample of Input And Output
+// todo
 
-Matching rule is simple: the ealier sent order will be traded ealier if the prices could be matched (buy price not lower than sell price). 
+#### License..
+// todo
 
-
-// sample of input and output..
-
-
-// License..
-
-
-Jan 2017 Dublin Ireland
+##### Jan 2017 Dublin Ireland
