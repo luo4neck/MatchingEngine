@@ -8,15 +8,16 @@ Matching rule is simple: the earlier sent order will be traded earlier if the pr
 
 #### **Compiling And Testing:**
 To compile  
-$ make
+`$ make`
 
 To run all unit test cases  
-$ make test
+`$ make test`
 
 Unit test cases for functionality of CANCEL, PRINT, MODIFY  
-$ make testcancel  
-$ make testprint  
-$ make testmodify
+`$ make testcancel`  
+`$ make testprint`  
+`$ make testmodify`
+
 
 #### **Supported Commands:**
 
@@ -34,6 +35,6 @@ Could take 7 kinds of input from stdin:
 // todo
 
 #### License:
-// todo
+See the [License]() file for details. 
 
 **Jan 2017 Dublin Ireland**
