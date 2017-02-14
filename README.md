@@ -35,6 +35,6 @@ Could take 7 kinds of input from stdin:
 // todo
 
 #### License:
-See the [License]() file for details. 
+See the [License](https://github.com/luo4neck/MatchingEngine/blob/master/LICENSE) file for details. 
 
 **Jan 2017 Dublin Ireland**
