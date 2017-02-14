@@ -1,7 +1,7 @@
 ## **Mini Matching Engine**
 This is a mini trading order matching engine for Unix like platform.  
-Matching rule is simple: the earlier sent order will be traded earlier if the prices could be matched (buy price not lower than sell price).
-
+Matching rule is simple: the earlier sent order will be traded earlier if the prices could be matched (buy price not lower than sell price).  
+Unit test is handled by Makefile. 
 #### **Requirements:**
 * C++11
 * clang 3.5 / gcc 4.8 or newer
