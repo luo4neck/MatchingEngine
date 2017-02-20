@@ -9,6 +9,7 @@ TESTDIR	=test
 TC		=testcancel
 TP		=testprint
 TM		=testmodify
+TB		=testbuy
 
 $(BUILDDIR)/$(EXE):$(OBJ)
 	$(CC) -o $(EXE) $(OBJ) $(FLAG)
@@ -38,7 +39,7 @@ clean:
 
 ############ above cmds are for building, below cmds are for testing ############
 
-test:$(TC) $(TP) $(TM)
+test:$(TC) $(TP) $(TM) $(TB)
 
 # test of CANCEL..
 $(TC):$(BUILDDIR)/$(EXE) $(TESTDIR)/$(TC).dat $(TESTDIR)/$(TC).cor 
@@ -62,3 +63,12 @@ $(TM):$(BUILDDIR)/$(EXE) $(TESTDIR)/$(TM).dat $(TESTDIR)/$(TM).cor
 	$(BUILDDIR)/$(EXE) < $(TESTDIR)/$(TM).dat > $(BUILDDIR)/$(TM).tmp
 	diff $(TESTDIR)/$(TM).cor $(BUILDDIR)/$(TM).tmp
 	@echo "expected result: no difference between these 2 compared files" 
+	@echo 
+
+# test of BUY..
+$(TB):$(BUILDDIR)/$(EXE) $(TESTDIR)/$(TB).dat $(TESTDIR)/$(TB).cor 
+	@echo "Unit testing for functionality of BUY:"
+	$(BUILDDIR)/$(EXE) < $(TESTDIR)/$(TB).dat > $(BUILDDIR)/$(TB).tmp
+	diff $(TESTDIR)/$(TB).cor $(BUILDDIR)/$(TB).tmp
+	@echo "expected result: no difference between these 2 compared files" 
+	@echo 
