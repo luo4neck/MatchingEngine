@@ -32,7 +32,7 @@ Could take 7 kinds of input from stdin, formats listed below:
 6, MODIFY.  
 7, PRINT, no other parameter, just 'PRINT'. 
 
-IOC order (??) will not be added to sell/buy list if it was not completely traded. 
+IOC order (??) will not be added to sell/buy list if it was not completely traded.  
 GFD order (Good For Day) will be added to sell/buy list if it was not completely traded. 
 
 #### License:

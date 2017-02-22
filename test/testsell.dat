@@ -1,0 +1,5 @@
+## this unit test file is for functionality of sell..
+BUY GFD 1300 100 or01
+SELL GFD 1200 40 or02
+SELL IOC 1299 70 or03
+PRINT
