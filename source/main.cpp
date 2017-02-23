@@ -26,7 +26,7 @@ int main()
 					engine.Match(newOrder);
 				}
 				break;
-			//case ORDER_OPERATION_MODIFY:
+			// 2 types of modify, depends on buy/sell of new order..
 			case ORDER_OPERATION_MODIFY_BUY:
 			case ORDER_OPERATION_MODIFY_SELL:
 				{
