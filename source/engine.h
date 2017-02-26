@@ -24,8 +24,8 @@ public:
     
 	void Print();
 
-    // sort sellbook and buybook for PRINT operation..
-    void SortBook(map<uint64_t, uint64_t>& sortedBook, list<COrder> orderList);
+	// sort sellbook and buybook for PRINT operation..
+	void SortBook(map<uint64_t, uint64_t>& sortedBook, list<COrder> orderList);
 	
 	// parse a cmd line in to a vector of different fields, and return a order object for engine..
 	// another very important function
@@ -39,7 +39,6 @@ private:
 
     // only used when a trade was done..
 	void TradePrint(COrder& o1, COrder& o2, uint64_t qty);
-
 };
 
 #endif

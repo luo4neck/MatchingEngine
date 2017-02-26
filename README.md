@@ -19,13 +19,14 @@ Unit test cases for functionality of CANCEL, PRINT, MODIFY
 `$ make testprint`  
 `$ make testmodify`  
 `$ make testbuy`  
+//todo take parameter from makefile for large scale test..  
 
 #### **Supported Commands:**
 
 Could take 5 kinds of input from stdin, formats listed below:
 
-1, BUY.  
-2, SELL.  
+1, BUY  order\_type quantity price order\_id; e.g. 'BUY  GFD 300 32 u5d12t9'.  
+2, SELL order\_type quantity price order\_id; e.g. 'SELL IOC 300 31 78wehyw'.  
 3, CANCEL order\_id; e.g. 'CANCEL 5z81f72a'.  
 4, MODIFY.  
 5, PRINT; no other parameter.  
