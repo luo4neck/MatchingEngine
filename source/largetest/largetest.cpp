@@ -37,5 +37,7 @@ int main()
 		cout<<"order"<<i<<endl;
 	}
 	
+	cout<<"PRINT"<<endl;
+
 	return 0;
 }

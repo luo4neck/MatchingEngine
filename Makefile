@@ -11,6 +11,7 @@ TP		=testprint
 TM		=testmodify
 TB		=testbuy
 TS		=testsell
+TL		=testlarge
 
 $(BUILDDIR)/$(EXE):$(OBJ)
 	$(CC) -o $(EXE) $(OBJ) $(FLAG)
@@ -80,4 +81,14 @@ $(TS):$(BUILDDIR)/$(EXE) $(TESTDIR)/$(TS).dat $(TESTDIR)/$(TS).cor
 	$(BUILDDIR)/$(EXE) < $(TESTDIR)/$(TS).dat > $(BUILDDIR)/$(TS).tmp
 	diff $(TESTDIR)/$(TS).cor $(BUILDDIR)/$(TS).tmp
 	@echo "expected result: no difference between these 2 compared files" 
+	@echo 
+
+# large scale test..
+$(TL):$(BUILDDIR)/$(EXE) $(SRCDIR)/largetest/largetest.cpp
+	@echo "Compile $(SRCDIR)/largetest/largetest.cpp"
+	$(CC) -o largetest $(FLAG) $(SRCDIR)/largetest/largetest.cpp
+	mv largetest $(BUILDDIR)
+	$(BUILDDIR)/largetest > $(BUILDDIR)/$(TL).dat
+	$(BUILDDIR)/$(EXE) < $(BUILDDIR)/$(TL).dat > $(BUILDDIR)/$(TL).tmp
+	cat $(BUILDDIR)/$(TL).tmp
 	@echo 
