@@ -2,14 +2,14 @@
  * total number of orders is received as a parameter from ##
  * orders generated will be printed to stdout, then '## > ##.dat'
  * then will be used for testing..
-*/
+ */
 #include<iostream>
 #include<random>
 
 #define MIN_PRICE 1
 #define MAX_PRICE 2000
 #define MIN_QUANT 1
-#define MAX_QUANT 10000
+#define MAX_QUANT 100
 
 using namespace std;
 
@@ -26,6 +26,7 @@ int main()
 	for(size_t i=0; i<total; i++)
 	{
 		// switch()
+		// buy, sell, modbuy, modsell, cancel, print
 
 		if(i%2 == 0)	cout<<"SELL ";
 		else			cout<<"BUY ";

@@ -14,12 +14,13 @@ To compile
 To run all unit test cases  
 `$ make test`
 
-Unit test cases for functionality of CANCEL, PRINT, MODIFY  
+Unit test cases for functionality of BUY, SELL, MODIFY, CANCEL, PRINT and Large Scale Test:  
+`$ make testbuy`  
+`$ make testsell`  
+`$ make testmodify`  
 `$ make testcancel`  
 `$ make testprint`  
-`$ make testmodify`  
-`$ make testbuy`  
-//todo take parameter from makefile for large scale test..  
+`$ make testlarge`//todo take parameter from makefile for large scale test..  
 
 #### **Supported Commands:**
 
@@ -27,8 +28,8 @@ Could take 5 kinds of input from stdin, formats listed below:
 
 1, BUY  order\_type quantity price order\_id; e.g. 'BUY  GFD 300 32 u5d12t9'.  
 2, SELL order\_type quantity price order\_id; e.g. 'SELL IOC 300 31 78wehyw'.  
-3, CANCEL order\_id; e.g. 'CANCEL 5z81f72a'.  
-4, MODIFY.  
+3, MODIFY order\_id operation\_type quantity price; e.g. 'MODIFY 1d81st2 BUY 200 18'.  
+4, CANCEL order\_id; e.g. 'CANCEL 5z81f72a'.  
 5, PRINT; no other parameter.  
 
 There are 2 order\_type, IOC and GFD:  
