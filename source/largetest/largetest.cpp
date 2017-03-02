@@ -15,8 +15,6 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-	cout<<"test"<<endl;
-
 	if( argc != 2 )
 	{
 		cout<<"this script can only take 1 parameter"<<endl;
@@ -24,7 +22,11 @@ int main(int argc, char** argv)
 	}
 
 	auto total = stoi( argv[1] );
-	cout<<"total orders->"<<total<<endl;
+	
+	if(total < 1) total = 50; // set to 50 if smaller than 1..
+	//cout<<"total orders->"<<total<<endl;
+	
+	//================== above is input check ===================//
 
 	random_device rd;
 	mt19937 gen( rd() );
@@ -32,10 +34,10 @@ int main(int argc, char** argv)
 	uniform_int_distribution<int> price_dist(MIN_PRICE, MAX_PRICE);
 	uniform_int_distribution<int> quant_dist(MIN_QUANT, MAX_QUANT);
 	uniform_real_distribution<double> oper_dist(0, 1); // to decide operation..
+	
+	//================== above is random number generation preparetion ====================//
 
-	if(total < 1) total = 100; // set to 100 if not set..
-
-	for(size_t i=0; i<total; i++)
+	for(size_t i=0; i<total; ++i)
 	{
 		// switch()
 		// buy, sell, modbuy, modsell, cancel, print

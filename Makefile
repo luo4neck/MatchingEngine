@@ -12,7 +12,7 @@ TM		=testmodify
 TB		=testbuy
 TS		=testsell
 TL		=testlarge
-TLV		=40
+TLV		=50
 
 $(BUILDDIR)/$(EXE):$(OBJ)
 	$(CC) -o $(EXE) $(OBJ) $(FLAG)

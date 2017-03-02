@@ -20,16 +20,16 @@ Unit test cases for functionality of BUY, SELL, MODIFY, CANCEL, PRINT and Large 
 `$ make testmodify`  
 `$ make testcancel`  
 `$ make testprint`  
-`$ make testlarge`//todo take parameter from makefile for large scale test..  
+`$ make testlarge` or `$ make testlarge TLV=x` (x could be any integer larger than 0, 50 will be used if TLV was not set)  
 
 #### **Supported Commands:**
 
 Could take 5 kinds of input from stdin, formats listed below:
 
-1, BUY  order\_type quantity price order\_id; e.g. 'BUY  GFD 300 32 u5d12t9'.  
-2, SELL order\_type quantity price order\_id; e.g. 'SELL IOC 300 31 78wehyw'.  
-3, MODIFY order\_id operation\_type quantity price; e.g. 'MODIFY 1d81st2 BUY 200 18'.  
-4, CANCEL order\_id; e.g. 'CANCEL 5z81f72a'.  
+1, BUY  ORDER\_TYPE QUANTITY PRICE ORDER\_ID; e.g. 'BUY  GFD 300 32 u5d12t9'.  
+2, SELL ORDER\_TYPE QUANTITY PRICE ORDER\_ID; e.g. 'SELL IOC 300 31 78wehyw'.  
+3, MODIFY ORDER\_ID OPERATION\_TYPE QUANTITY PRICE; e.g. 'MODIFY 1d81st2 BUY 200 18'.  
+4, CANCEL ORDER\_ID; e.g. 'CANCEL 5z81f72a'.  
 5, PRINT; no other parameter.  
 
 There are 2 order\_type, IOC and GFD:  
@@ -37,9 +37,11 @@ IOC order (Immediate or Cancel) will not be added to sell/buy list if it was not
 GFD order (Good For Day) will be added to sell/buy list if it was not completely traded. 
 
 Order could be partially traded or completely traded. Once a pair of orders (one sell and one buy) got traded, a message will be printed like the following format.  
-`TRADE s151h23 1000 20 7sdfa91 1002 20`    
+`TRADE s151h23 1000 20 7sdfa91 1002 20`  
 
 #### License:
 See the [License](https://github.com/luo4neck/MatchingEngine/blob/master/LICENSE) file for details. 
+
+//todo dependency issue and TLV script tobe completed  
 
 **Jan 2017 @Dublin Ireland**
