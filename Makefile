@@ -12,6 +12,7 @@ TM		=testmodify
 TB		=testbuy
 TS		=testsell
 TL		=testlarge
+TLV		=40
 
 $(BUILDDIR)/$(EXE):$(OBJ)
 	$(CC) -o $(EXE) $(OBJ) $(FLAG)
@@ -88,7 +89,8 @@ $(TL):$(BUILDDIR)/$(EXE) $(SRCDIR)/largetest/largetest.cpp
 	@echo "Compile $(SRCDIR)/largetest/largetest.cpp"
 	$(CC) -o largetest $(FLAG) $(SRCDIR)/largetest/largetest.cpp
 	mv largetest $(BUILDDIR)
-	$(BUILDDIR)/largetest > $(BUILDDIR)/$(TL).dat
+	$(BUILDDIR)/largetest ${TLV} > $(BUILDDIR)/$(TL).dat
+	@echo "There are ${TLV} orders sent into this large scale test"
 	$(BUILDDIR)/$(EXE) < $(BUILDDIR)/$(TL).dat > $(BUILDDIR)/$(TL).tmp
 	cat $(BUILDDIR)/$(TL).tmp
 	@echo 

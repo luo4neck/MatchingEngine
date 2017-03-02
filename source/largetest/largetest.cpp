@@ -13,15 +13,27 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char** argv)
 {
-	default_random_engine price_engine;
+	cout<<"test"<<endl;
+
+	if( argc != 2 )
+	{
+		cout<<"this script can only take 1 parameter"<<endl;
+		return 1;
+	}
+
+	auto total = stoi( argv[1] );
+	cout<<"total orders->"<<total<<endl;
+
+	random_device rd;
+	mt19937 gen( rd() );
+
 	uniform_int_distribution<int> price_dist(MIN_PRICE, MAX_PRICE);
-
-	default_random_engine quant_engine;
 	uniform_int_distribution<int> quant_dist(MIN_QUANT, MAX_QUANT);
+	uniform_real_distribution<double> oper_dist(0, 1); // to decide operation..
 
-	const int total = 100; // should be replaced from input..
+	if(total < 1) total = 100; // set to 100 if not set..
 
 	for(size_t i=0; i<total; i++)
 	{
@@ -33,8 +45,8 @@ int main()
 
 		cout<<"GFD ";
 
-		cout<<price_dist(price_engine)<<" ";
-		cout<<quant_dist(quant_engine)<<" ";
+		cout<<price_dist( gen )<<" ";
+		cout<<quant_dist( gen )<<" ";
 		cout<<"order"<<i<<endl;
 	}
 	

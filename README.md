@@ -8,10 +8,10 @@ Unit test is handled by Makefile.
 * clang 3.5 / gcc 4.8 or newer
 
 #### **Compiling And Testing:**
-To compile  
+To compile:  
 `$ make`
 
-To run all unit test cases  
+To run all unit test cases:  
 `$ make test`
 
 Unit test cases for functionality of BUY, SELL, MODIFY, CANCEL, PRINT and Large Scale Test:  
