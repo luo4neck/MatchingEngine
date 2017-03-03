@@ -26,7 +26,7 @@ Unit test cases for functionality of BUY, SELL, MODIFY, CANCEL, PRINT and Large 
 
 Could take 5 kinds of input from stdin, formats listed below:
 
-1, BUY  ORDER\_TYPE QUANTITY PRICE ORDER\_ID; e.g. 'BUY  GFD 300 32 u5d12t9'.  
+1, BUY ORDER\_TYPE QUANTITY PRICE ORDER\_ID; e.g. 'BUY GFD 300 32 u5d12t9'.  
 2, SELL ORDER\_TYPE QUANTITY PRICE ORDER\_ID; e.g. 'SELL IOC 300 31 78wehyw'.  
 3, MODIFY ORDER\_ID OPERATION\_TYPE QUANTITY PRICE; e.g. 'MODIFY 1d81st2 BUY 200 18'.  
 4, CANCEL ORDER\_ID; e.g. 'CANCEL 5z81f72a'.  

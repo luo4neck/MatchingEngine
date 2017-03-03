@@ -39,17 +39,66 @@ int main(int argc, char** argv)
 
 	for(size_t i=0; i<total; ++i)
 	{
-		// switch()
 		// buy, sell, modbuy, modsell, cancel, print
+		auto oper = oper_dist( gen );
 
-		if(i%2 == 0)	cout<<"SELL ";
-		else			cout<<"BUY ";
+		if( oper < 0.05 ) // print..
+		{
+			cout<<"PRINT"<<endl;
+		}
+		else if( oper < 0.1 ) // cancel
+		{
+			int tmp1 = price_dist(gen), tmp2 = quant_dist( gen );
+			int orderid = ( tmp1 * tmp1 - tmp2 ) % total;
 
-		cout<<"GFD ";
+			cout<<"CANCEL "<<"order"<<orderid<<endl;
+		}
+		else if( oper < 0.2 ) // modify
+		{
+			int tmp1 = price_dist(gen), tmp2 = quant_dist( gen );
+			int orderid = ( tmp1 * tmp1 - tmp2 ) % total;
 
-		cout<<price_dist( gen )<<" ";
-		cout<<quant_dist( gen )<<" ";
-		cout<<"order"<<i<<endl;
+			cout<<"MODIFY "<<"order"<<orderid;
+			
+			if(oper < 0.15)	cout<<" BUY ";
+			else			cout<<" SELL ";
+			
+			cout<<price_dist( gen )<<" ";
+			cout<<quant_dist( gen )<<" ";
+			cout<<endl;
+		}
+		else if( oper < 0.4 ) // buy gfd 
+		{
+			cout<<"BUY ";
+			cout<<"GFD ";
+			cout<<price_dist( gen )<<" ";
+			cout<<quant_dist( gen )<<" ";
+			cout<<"order"<<i<<endl;
+		}
+		else if( oper < 0.6 ) // buy ioc
+		{
+			cout<<"BUY ";
+			cout<<"IOC ";
+			cout<<price_dist( gen )<<" ";
+			cout<<quant_dist( gen )<<" ";
+			cout<<"order"<<i<<endl;
+		}
+		else if( oper < 0.8 ) // sell gfd
+		{
+			cout<<"SELL ";
+			cout<<"GFD ";
+			cout<<price_dist( gen )<<" ";
+			cout<<quant_dist( gen )<<" ";
+			cout<<"order"<<i<<endl;
+		}
+		else // if( oper <= 1 ) sell ioc
+		{
+			cout<<"SELL ";
+			cout<<"IOC ";
+			cout<<price_dist( gen )<<" ";
+			cout<<quant_dist( gen )<<" ";
+			cout<<"order"<<i<<endl;
+		}
 	}
 	
 	cout<<"PRINT"<<endl;
