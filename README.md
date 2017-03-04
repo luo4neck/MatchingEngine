@@ -20,7 +20,7 @@ Unit test cases for functionality of BUY, SELL, MODIFY, CANCEL, PRINT and Large 
 `$ make testmodify`  
 `$ make testcancel`  
 `$ make testprint`  
-`$ make testlarge` or `$ make testlarge TLV=x` (x could be any integer larger than 0, 50 will be used if TLV was not set)  
+`$ make testlarge` or `$ make testlarge TLV=x` (the amount of large scale test could be set with x or left as default value of 50)  
 
 #### **Supported Commands:**
 
@@ -32,7 +32,7 @@ Could take 5 kinds of input from stdin, formats listed below:
 4, CANCEL ORDER\_ID; e.g. 'CANCEL 5z81f72a'.  
 5, PRINT; no other parameter.  
 
-There are 2 order\_type, IOC and GFD:  
+There are 2 ORDER\_TYPE, IOC and GFD:  
 IOC order (Immediate or Cancel) will not be added to sell/buy list if it was not completely traded.  
 GFD order (Good For Day) will be added to sell/buy list if it was not completely traded. 
 
@@ -42,6 +42,6 @@ Order could be partially traded or completely traded. Once a pair of orders (one
 #### License:
 See the [License](https://github.com/luo4neck/MatchingEngine/blob/master/LICENSE) file for details. 
 
-//todo dependency issue and TLV script tobe completed  
+//todo dependency issue 
 
 **Jan 2017 @Dublin Ireland**
